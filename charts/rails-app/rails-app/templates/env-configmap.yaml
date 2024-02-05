@@ -1,0 +1,13 @@
+{{- if (.Values.env) -}}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "rails-app.fullname" . }}-env
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+data:
+  {{- range $key, $value := .Values.env}}
+  {{ $key }}: {{ $value | toString  | quote }}
+  {{- end }}
+{{- end }}

@@ -2,7 +2,7 @@ railsApp:
   enabled: true
 rails-app:
   image:
-    repository: ghcr.io/commandplaneio/command-plane-rails
+    repository: ghcr.io/yuces/command-plane-rails
   env:
     DATABASE_USER: mariadb
     DATABASE_PASSWORD: mariadb

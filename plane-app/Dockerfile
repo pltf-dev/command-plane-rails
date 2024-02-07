@@ -25,10 +25,11 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential default-libmysqlclient-dev git libvips pkg-config
+    apt-get install --no-install-recommends -y build-essential default-libmysqlclient-dev git libvips pkg-config ruby-build
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
+RUN gem install rails -v $(grep "^  rails " Gemfile.lock | awk '{print $3}' | tr -d '[)]')
 RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
@@ -65,4 +66,4 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 
 # Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
-CMD ["./bin/rails", "server", "-b 0.0.0.0"]
+CMD ["./bin/rails", "server", "-b", "0.0.0.0"]

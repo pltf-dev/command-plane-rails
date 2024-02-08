@@ -1,0 +1,9 @@
+dependencies:
+- name: rails-app
+  repository: file://../rails-app
+  version: 0.1.0
+- name: mariadb
+  repository: https://charts.bitnami.com/bitnami
+  version: 15.2.0
+digest: sha256:b84820a3d0d4c70b899e9941edafe5f7fb28b8c396538cd16a203a340dc626e3
+generated: "2024-02-07T10:52:30.596135Z"

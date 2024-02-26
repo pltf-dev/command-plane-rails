@@ -1,8 +1,28 @@
-# Default values for deploy.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 railsApp:
   enabled: true
+rails-app:
+  image:
+    repository: ghcr.io/yuces/command-plane-rails
+  env:
+    DATABASE_USER: root
+    DATABASE_PORT: 3306
+    RAILS_LOG_LEVEL: debug
+  volumeMounts:
+  - mountPath: /rails
+    name: shared
+  volumes:
+  - name: shared
+    hostPath:
+      path: /opt/copl/shared/agent
+      type: Directory
+  name: shared
 mariadb:
   enabled: true
+  primary:
+    persistence:
+      enabled: false
+  auth:
+    username: mariadb
+    password: mariadb
+
+    #  --set 'mariadb.primary.persistence.enabled=false,rails-app.image.repository=ghcr.io/commandplaneio/command-plane-rails' \

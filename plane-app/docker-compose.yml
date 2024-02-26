@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:8.3
+    environment:
+      MYSQL_ROOT_PASSWORD: planeServer
+      MYSQL_USER: planedev
+      MYSQL_PASSWORD: planedev
+      MYSQL_DATABASE: planedev
+    ports:
+      - "3306:3306"
+    volumes:
+      - dev-mysql:/usr/data
+      - dev-mysql-var:/var/lib/mysql
+      - dev-mysql-var-files:/var/lib/mysql-files
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
+      DATABASE_NAME: planedev
+      DATABASE_USER: root
+      DATABASE_PASSWORD: planeServer
+    ports:
+      - "3000:3000"
+
+volumes:
+  dev-mysql:
+  dev-mysql-var:
+  dev-mysql-var-files:
